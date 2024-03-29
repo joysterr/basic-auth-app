@@ -9,29 +9,25 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    try {
-        const user = User.findOne({ username: req.body.username }).exec()
+    const exists = await User.findOne({ username: req.body.username }).exec()
+    console.log(exists)
+    if (exists) {
+        res.render('signup', { error: "User already exists. Try Logging in" })
+    } else {
+        try {
+            const hashedPassword = await bcrypt.hash(req.body.password, 10)
 
-        if (user) {
-            res.render('signup', { error: 'User exists. Try Loggin in' })
-        }
+            const newUser = new User({
+                username: req.body.username,
+                password: hashedPassword
+            })
 
-        const hashedPassword = await bcrypt.hash(req.body.password, 10)
-
-        const newUser = new User({
-            username: req.body.username,
-            password: hashedPassword
-        })
-
-        const result = await newUser.save()
-
-        if (result) {
+            const result = await newUser.save()
             res.redirect('/')
+        } catch (error) {
+            console.error(error)
         }
-    } catch (error) {
-        console.error(error)
     }
-
 })
 
 module.exports = router
