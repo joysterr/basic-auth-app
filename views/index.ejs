@@ -2,21 +2,25 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
+        <title>Login Page</title>
         <link rel="stylesheet" href="/styles.css">
-        <title>Basic Auth App</title>
     </head>
     <body>
         <div class="container">
-            <h1>Welcome!</h1>
-            <h1>Log In</h1>
-            <form action="/log-in" method="POST">
-                <label for="username">Username</label>
-                <input id="username" name="username" placeholder="Username" type="text" />
-                <label for="password">Password</label>
-                <input id="password" name="password" placeholder="Password" type="password" />
-                <button>Log In</button>
-            </form>
-            <a href="/signup">Sign Up</a>
+            <% if (user) { %>
+                <h1>WELCOME <%= user.username %>!</h1>
+                <a href="/logout">Log out</a>
+            <% } else { %>
+                <h1>Log In</h1>
+                <form action="/login" method="POST">
+                    <label for="username">Username</label>
+                    <input id="username" name="username" placeholder="Username" type="text" />
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password" />
+                    <button>Log In</button>
+                </form>
+                <a href="/signup">Sign Up</a>
+            <% } %>
         </div>
     </body>
 </html>
