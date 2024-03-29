@@ -7,6 +7,7 @@ const bcrypt = require('bcryptjs')
 const mongoose = require('mongoose')
 
 const indexRouter = require('./routes/index')
+const signupRouter = require('./routes/signup')
 
 const app = express()
 const port = 3000
@@ -27,7 +28,8 @@ app.use(logger('dev'))
 app.use(express.static('public'))
 
 // routes
-app.get('/', indexRouter)
+app.use('/', indexRouter)
+app.use('/signup', signupRouter)
 
 // start app
 app.listen(port, () => console.log(`dev: server running on localhost:${port}`))
