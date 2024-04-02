@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
     const exists = await User.findOne({ username: req.body.username }).exec()
     console.log(exists)
     if (exists) {
-        res.render('signup', { error: "User already exists. Try Logging in" })
+        res.render('signup', { error: "User already exists" })
     } else {
         try {
             const hashedPassword = await bcrypt.hash(req.body.password, 10)
